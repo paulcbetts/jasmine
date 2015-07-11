@@ -1,7 +1,11 @@
 var getJasmineRequireObj = (function (jasmineGlobal) {
   var jasmineRequire;
 
-  if (typeof module !== 'undefined' && module.exports) {
+  // Electron's browser process has node.js Zen Nature, whereas its renderer 
+  // process should be treated like a web browser
+  var isElectronRenderer = (process && process.type && process.type !== 'renderer');
+  
+  if (typeof module !== 'undefined' && module.exports && !isElectronRenderer) {
     jasmineGlobal = global;
     jasmineRequire = exports;
   } else {
